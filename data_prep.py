@@ -1,7 +1,7 @@
 import json
 
 input_json_path = "output.json"
-output_text_path = "fine_tune_slm/training_data.txt"
+output_text_path = "training_data.txt"
 
 # Load JSON data
 with open(input_json_path, "r") as f:
