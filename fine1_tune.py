@@ -50,20 +50,15 @@ print("Dataset tokenized.")  # Debug print
 training_args = TrainingArguments(
     output_dir="./fine_tune_slm/results",
     num_train_epochs=3,
-    per_device_train_batch_size=2,
-    gradient_accumulation_steps=4,
-    warmup_steps=100,
-    weight_decay=0.01,
-    logging_dir="./fine_tune_slm/logs",
+    per_device_train_batch_size=1,  # ✅ Reduce batch size (was 2)
+    gradient_accumulation_steps=2,  # ✅ Reduce accumulation steps (was 4)
+    optim="adamw_torch",
+    bf16=True,  # ✅ Keep bfloat16 for better memory efficiency
+    gradient_checkpointing=True,  # ✅ Helps reduce memory
+    save_strategy="epoch",
     logging_steps=10,
     evaluation_strategy="no",
-    save_strategy="epoch",
-    learning_rate=5e-5,
-    dataloader_num_workers=2,
-    gradient_checkpointing=True,
-    report_to="none",
-    bf16=True,  # ✅ Use bf16 instead of fp16 to fix gradient unscaling issue
-    optim="adamw_torch"  # ✅ Use PyTorch’s AdamW optimizer (better stability)
+    report_to="none"
 )
 
 # 4. Define Data Collator (Fix for Loss Issue)
